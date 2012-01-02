@@ -1,0 +1,175 @@
+<html><head>
+<script language="Javascript">
+var $i=new Array();
+$m=Math;
+$j=document;
+$da=$j.all;
+$r=$m.PI/180;
+$u=window;
+var active=true;
+$c0 = $c1 = 0;
+colr = false;
+var gOut = new Array();
+var chunk = '';
+var $girls = new Array();
+
+var a=new Array();
+rx = 14;
+ry = 14; 
+rz = 0;
+k = 3;
+rd = 10;
+$obs = new Array();
+
+</script>
+<script language="Javascript" src="girl.js"></script>
+<script language="Javascript" src="girl2.js"></script>
+<script language="javascript">
+
+var $finalG = new Array();
+
+function $no(x,y){$i[$i.length]=new of(x,y);return ($i.length-1)}
+
+function $np(x,y,z){this.x=this.x2=x*k;this.y=this.y2=y*k;this.z=this.z2=z*k;}
+
+function of(x,y){this.x=x*k;this.y=y*k;this.pr=new Array()}
+
+function h(u,e){b=""+$m.round(($m.random()+1)*(999999/e));return "000000".substr(b.length)+b;}
+
+function dp(o)
+  {
+    f=ppr(o);
+    for(pID=0;pID<$i[o].pr.length;pID++)
+      {
+        msg='<DIV id="im'+(f+pID)+'" STYLE="font-family:Courier; font-size:3px; color:#ffffff;"><pre>'+$finalG[pID]+'</pre></DIV>';
+        $j.body.insertAdjacentHTML('BeforeEnd','<div id="id'+(f+pID)+'" style="position:absolute;">'+msg+'</div>');
+      }
+  }
+
+function rt(o,v1,v2,v3){rtf(o,v1,v2,v3);f=ppr(o);for(pID=0;pID<$i[o].pr.length;pID++){up(o,pID,f+pID)}}
+
+// argument order is a hack
+function rtf(o,v2,v1,v3)
+  {
+    c1=$m.cos(v1*$r);
+    c2=$m.cos(v2*$r);
+    c3=$m.cos(v3*$r);
+    s1=$m.sin(v1*$r);
+    s2=$m.sin(v2*$r);
+    s3=$m.sin(v3*$r);
+    for(pID=0;pID<$i[o].pr.length;pID++)
+      {
+        p=$i[o].pr[pID];
+        x2=p.x*c2 + p.z*s2;
+        z2=p.z*c2 - p.x*s2;
+        y2=p.y*c3 + x2*s3;
+        p.x=x2*c3 - p.y*s3;
+        p.y=y2*c1 + z2*s1;
+        p.z=z2*c1 - y2*s1;
+      }
+  }
+
+function up(o,pID,lID)
+  {
+    p=$i[o].pr[pID];
+    b=p.z==0?-1:p.z/2;
+    d=$da["id"+lID].style;
+    grl=$da["im"+lID].style;
+    pl=d.pixelLeft=$i[o].x+(b*p.x/(p.z-b));
+    pt=d.pixelTop=$i[o].y+(b*p.y/(p.z-b));
+    d.zIndex=p.z;
+    if(colr) { grl.color=h(pID,$i[o].pr.length); }
+  }
+
+function ppr(o){b=0;for(f=0;f<o;f++){b+=$i[f].pr.length}return b}
+
+function mv(o,x,y){$i[o].x=x;$i[o].y=y}
+
+function ki(sX,sY)
+  {
+    ex = sX || event.clientX;
+    ey = sY || event.clientY;
+    for(x=0;x<$i.length;x++)
+      {
+        a[x].x=0;//(ex-$i[x].x)/($c1*2)*rx;
+        a[x].y=(ey-$i[x].y)/($c0*2)*ry;
+      }
+  }
+
+function $npr(o,x,y,z){$i[o].pr[($i[o].pr.length)]=new $np(x,y,z)}
+
+function ro(){if(active){for(x=0;x<$i.length;x++){rt(x,a[x].x,a[x].y,a[x].z)}}setTimeout("ro()",1)}
+
+function switchGirl(id,g,b)
+  {
+    active = false;
+    o = $obs[id];
+    f=ppr(o);
+    for(pID=0;pID<$i[o].pr.length;pID++)
+      {
+        $da['id'+(f+pID)].outerHTML = '';
+      }
+    $i[o].pr.length = 0;
+    $i.length = 0;
+    o = $obs[id] = $no(0,0);
+    makeGirl(o,g,b);
+    active = true;
+  }
+
+function makeGirl(id,g,b)
+  {
+    g = $girls[g];
+    for(y=0; y<g.length; y++)
+      {
+        chunk += g[y]+'\n';
+        if(y%b==b-1)
+          {
+            gOut[gOut.length] = chunk;
+            chunk = '';
+          }
+      }
+    if(chunk)
+      {
+        gOut[gOut.length] = chunk;
+      }
+    o = $obs[id] = $no(0,0);
+    vt = gOut.length*b/2;
+    for(y=0; y<gOut.length; y++)
+      {
+        pY = y*b;
+        chunk = gOut[y];
+        $finalG[$finalG.length] = chunk;
+        $i[o].pr[($i[o].pr.length)] = new $np(-20,pY-vt,-10);
+      }
+    for(v=0;v<$i.length;v++)
+      {
+        a[v]=new $np(0,0,0);
+        dp(v);
+      }
+    for(p=0;p<$i.length;p++)
+      {
+        mv(p,($c1*2/($i.length+1))*(p+1),$c0);
+      }
+  }
+
+function init()
+  {
+    $c0 = $j.body.clientHeight/2;
+    $c1 = $j.body.clientWidth/2;
+    makeGirl('girl',0,5);
+    $j.onmousemove=ki;
+    $j.onmousedown=function(){active=true;}
+    $j.onmouseup=function(){active=false;}
+    $j.ondblclick=function(){active=true;}
+    $j.onclick = function(){colr=!colr;}
+    $j.onselectstart = function() { return false; }
+    ro();
+  }
+
+</script>
+
+</head>
+<body bgcolor="#000000" onload="javascript:init()" scroll="no">
+
+
+</html>

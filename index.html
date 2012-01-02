@@ -1,0 +1,198 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"><head><script language="javascript">
+
+var $i=new Array();
+var $c0,$c1;
+
+$r=Math.PI/180;
+
+var active=true;
+
+function $no(x,y)
+  {
+	  $i[$i.length] = new of(x,y);
+		return($i.length-1)
+	}
+
+function $np(x,y,z)
+  {
+	  this.x = this.x2 = x*k;
+		this.y = this.y2 = y*k;
+		this.z = this.z2 = z*k;
+	}
+
+function of(x,y)
+  {
+	  this.x = x*k;
+		this.y = y*k;
+		this.pr = new Array();
+	}
+
+function h(u,e)
+  {
+	  b=""+Math.round((u+1)*(999999/e));
+		return("000000".substr(b.length)+b);
+	}
+
+function dp(o)
+  {
+    var ln=0;
+    f=ppr(o);
+    for(pID=0;pID<$i[o].pr.length;pID++)
+      {
+        p=$i[o].pr[pID];
+
+        var L = document.createElement('DIV');
+	      document.body.appendChild(L);
+	      L.setAttribute('id','id'+(f+pID));
+	    	var e = document.getElementById('id'+(f+pID));
+	    	with(e.style)
+		      {
+			      position = 'absolute';
+				    width = 32;
+				    height = 32;
+				    border = '1px #404040 solid';
+				    backgroundColor = '#'+h(pID,$i[o].pr.length);
+					}
+			}
+  }
+
+function rt(o,v1,v2,v3)
+  {
+    c1=Math.cos(v1*$r);
+    c2=Math.cos(v2*$r);
+    c3=Math.cos(v3*$r);
+    s1=Math.sin(v1*$r);
+    s2=Math.sin(v2*$r);
+    s3=Math.sin(v3*$r);
+    for(pID=0;pID<$i[o].pr.length;pID++)
+      {
+        p=$i[o].pr[pID];
+        x2=p.x*c2 + p.z*s2;
+        z2=p.z*c2 - p.x*s2;
+        y2=p.y*c3 + x2*s3;
+        p.x=x2*c3 - p.y*s3;
+        p.y=y2*c1 + z2*s1;
+        p.z=z2*c1 - y2*s1;
+      }
+			
+		f=ppr(o);
+		
+		var ha = '';
+		var hi = 0;
+		var lo = 0;
+
+		for(pID=0;pID<$i[o].pr.length;pID++)
+		  {
+	      lID = f+pID;
+        p=$i[o].pr[pID];
+        b=p.z==0?-1:p.z/2;
+        d= document.getElementById("id"+lID).style;
+        pl=d.left=$i[o].x+(b*p.x/(p.z-b));
+        pt=d.top=$i[o].y+(b*p.y/(p.z-b));
+				
+				// loosy-goosy, but seems to be visually sufficient
+        d.zIndex = parseInt(p.z)+180;
+			}
+	}
+
+function ppr(o)
+  {
+	  b=0;
+		for(f=0;f<o;f++)
+		  {
+			  b+=$i[f].pr.length;
+			}
+		return(b);
+	}
+
+function mv(o,x,y)
+  {
+	  $i[o].x = x;
+		$i[o].y = y;
+	}
+
+function ki(e)
+  {
+    ex = (e) ? e.pageX : event.clientX;
+    ey = (e) ? e.pageY : event.clientY;
+
+    for(x=0;x<$i.length;x++)
+      {
+        a[x].y=(ex-$i[x].x)/($c1*2)*rx;
+        a[x].x=(ey-$i[x].y)/($c0*2)*ry;
+      }
+  }
+
+function ro()
+  {
+	  if(active)
+		  {
+			  for(x=0;x<$i.length;x++)
+				  {
+					  rt(x,a[x].x,a[x].y,a[x].z);
+					}
+			}
+		setTimeout("ro()",1);
+	}
+
+var a=new Array();
+rx = 10;
+ry = 10; 
+rz = 0;
+k = 3;
+rd = 28;
+$dna = $no(0,0);
+
+function make(o,cnt,y,z)
+  {
+    var imC = 0;
+    var cX = 0;
+    var inc = 360*y/cnt;
+    while(imC < cnt)
+      {
+			  $i[o].pr[($i[o].pr.length)]=new $np(Math.cos(cX*$r)*rd,Math.sin(cX*$r)*rd,(360*y/2-cX)/(y*z));
+        cX+=inc;
+        ++imC;
+      }
+    for(x=0;x<$i.length;x++)
+      {
+        a[x]=new $np(0,0,0);
+        dp(x);
+      }
+    for(x=0;x<$i.length;x++)
+      {
+        mv(x,($c1*2/($i.length+1))*(x+1),$c0);
+      }
+  }
+
+function init()
+  {
+    $c0 = document.body.clientHeight/2;
+    $c1 = document.body.clientWidth/2;
+		
+		with(document.getElementById('CENT').style)
+		  {
+        top = $c0-5;
+        left = $c1-5;
+			}
+    make($dna,31,2,5);
+    document.onmousemove=ki;
+    document.onmousedown=function(){active=true;}
+    document.onmouseup=function(){active=false;}
+    document.ondblclick=function(){active=true;}
+    for(x=0;x<$i.length;x++)
+      {
+        a[x].y=(($c0-200)-$i[x].x)/($c1*2)*rx;
+        a[x].x=(($c1-200)-$i[x].y)/($c0*2)*ry;
+      }
+    ro();
+  }
+
+</script>
+
+<style>v\:* { behavior: url(#default#VML); }</style>
+
+</head>
+<body bgcolor="#a1a1a1" onload="javascript:init()">
+<div id="CENT" style="position:absolute; top:0; left:0; width:10; height:10; color:#000000; font-family:Verdana,Arial; font-size:20; z-index:180;">+</div>
+</html>
